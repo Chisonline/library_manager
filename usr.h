@@ -1,9 +1,11 @@
 #pragma once
 #include "book.h"
+#include "tools.h"
 #include <iostream>
 #include <map>
 #include <vector>
 #include <fstream>
+#include <conio.h>
 class usr {
 public:
 	usr(std::string name, std::string _passwd,int lev);
@@ -15,6 +17,7 @@ public:
 	void save(std::ostream& ss);
 	void borrow(std::string s);
 	void op();
+	int get_lev() { return this->_lev; }
 	usr(usr* u);
 	usr();
 	std::string _name;

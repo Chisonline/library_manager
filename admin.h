@@ -1,4 +1,6 @@
 #pragma once
-class admin {
-
+#include "usr.h"
+class admin :public usr{
+public:
+	void op();
 };

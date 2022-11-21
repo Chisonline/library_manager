@@ -24,15 +24,7 @@ void login() {
 	}
 	now_usr = &user[usr_name];
 	std::cout << "请输入密码:" << std::endl;
-	while (true) {
-		char ch = _getch();
-		if (ch == '\r') {
-			putchar('\r');
-			break;
-		}
-		passwd += ch;
-		putchar('*');
-	}
+	passwd = get_pwd();
 	if (now_usr->checklogin(passwd)) {
 		std::cout << "登录成功！" << std::endl;
 		std::cout << "欢迎 " << usr_name << std::endl;
@@ -48,7 +40,7 @@ void login() {
 void regist() {
 	system("cls");
 	std::cout << "请输入用户名:" << std::endl;
-	std::string usr_name, passwd1,passwd2;
+	std::string usr_name, pwd1,pwd2;
 	std::cin >> usr_name;
 	if (user.find(usr_name) != user.end()) {
 		std::cout << "用户名已被占用" << std::endl;
@@ -57,33 +49,17 @@ void regist() {
 		return;
 	}
 	std::cout << "请输入密码:" << std::endl;
-	while (true) {
-		char ch = _getch();
-		if (ch == '\r') {
-			putchar('\r');
-			break;
-		}
-		passwd1 += ch;
-		putchar('*');
-	}
-	std::cout << "请再次输入密码以确认" << std::endl;
-	while (true) {
-		char ch = _getch();
-		if (ch == '\r') {
-			putchar('\r');
-			break;
-		}
-		passwd2 += ch;
-		putchar('*');
-	}
-	if (passwd1 != passwd2) {
+	pwd1 = get_pwd();
+	std::cout << "请重复密码以确认" << std::endl;
+	pwd2 = get_pwd();
+	if (pwd1 != pwd2) {
 		std::cout << "两次密码不一致！" << std::endl;
 		system("pause");
 		welcome();
 		return;
 	}
 	else {
-		AddUsr(usr_name, passwd1,2);
+		AddUsr(usr_name, pwd1,2);
 		now_usr = &user[usr_name];
 		std::cout << "登录成功！" << std::endl;
 		std::cout << "欢迎 " << now_usr->_name << std::endl;
@@ -91,7 +67,6 @@ void regist() {
 		return;
 	}
 }
-
 void operat() {
 	//Sleep(500);
 	system("cls");
@@ -100,6 +75,7 @@ void operat() {
 	std::cout << "2.用户操作" << std::endl;
 	std::cout << "3.退出登录" << std::endl;
 	std::cout << "4.关闭系统" << std::endl;
+	std::cout << "0.管理员模式" << std::endl;
 	std::cout << now_usr->_name << ">" ;
 	int op;
 	std::cin >> op;
@@ -120,6 +96,12 @@ void operat() {
 		break;
 	case 4:
 		shutdown();
+	case 0:
+		if (now_usr->get_lev() != 1) {
+			std::cout <<"您不是本系统的管理员" << std::endl;
+			break;
+		}
+		//now_usr = new admin;
 	default:
 		std::cout << "无效的操作" << std::endl;
 	}

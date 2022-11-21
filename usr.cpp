@@ -82,5 +82,33 @@ void EraseUsr(std::string name) {
 	delete(&user[name]);
 }
 void usr::op() {
-	
+	std::cout << "请输入操作对应序号" << std::endl;
+	std::cout << "1.我的借书列表" << std::endl;
+	std::cout << "2.修改密码" << std::endl;
+	//std::cout << "" << std::endl;
+	std::cout << this->_lev << ">";
+	int opt;
+	std::cin >> opt;
+	switch (opt) {
+	case 1:
+		show_borrow_list();
+		break;
+	case 2:
+		std::string pwd1, pwd2;
+		std::cout << "请输入新密码" << std::endl;
+		pwd1 = get_pwd();
+		std::cout << "请重复密码以确认" << std::endl;
+		pwd2 = get_pwd();
+		if (pwd1 != pwd2) {
+			std::cout << "两次密码不一致！" << std::endl;
+			system("pause");
+			break;
+		}
+		else {
+			this->change_passwd(pwd1);
+			std::cout << "修改成功！" << std::endl;
+			system("pause");
+			break;
+		}
+	}
 }
