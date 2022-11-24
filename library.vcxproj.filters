@@ -30,18 +30,24 @@
     <ClCompile Include="db.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="opt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tools.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="book.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="admin.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="db.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="tools.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="opt.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

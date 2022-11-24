@@ -130,13 +130,15 @@
     <ClCompile Include="book.cpp" />
     <ClCompile Include="db.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="opt.cpp" />
+    <ClCompile Include="tools.cpp" />
     <ClCompile Include="usr.cpp" />
     <ClCompile Include="usr.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="admin.h" />
     <ClInclude Include="book.h" />
     <ClInclude Include="db.h" />
+    <ClInclude Include="opt.h" />
     <ClInclude Include="tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

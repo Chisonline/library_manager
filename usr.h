@@ -15,9 +15,11 @@ public:
 	bool change_name(std::string s);
 	void show_borrow_list();
 	void save(std::ostream& ss);
-	void borrow(std::string s);
+	void borrow(book targ);
 	void op();
 	int get_lev() { return this->_lev; }
+	int find_borrow(std::string);
+	void back(std::string);
 	usr(usr* u);
 	usr();
 	std::string _name;

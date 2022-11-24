@@ -20,6 +20,16 @@ usr::usr(usr* u) {
 	this->_passwd = u->_passwd;
 	this->_lev = u->_lev;
 }
+int usr::find_borrow(std::string ss) {
+	for(int i = 0;i < borrow_list.size();i++)
+		if (borrow_list[i] == ss) {
+			return i;
+		}
+	return -1;
+}
+void usr::borrow(book targ) {
+	this->borrow_list.push_back(targ.show_name());
+}
 //Hash
 int usr::encrypt(std::string s) {
 	int res = 0;
@@ -49,13 +59,17 @@ void usr::show_borrow_list() {
 		return;
 	}
 	system("cls");
-	std::cout << "题名" << std::setw(W);
-	std::cout << "ISBN" << std::setw(W);
+	int maxW = 0;
+	for (int i = 0; i < this->borrow_list.size(); i++) {
+		maxW = max(maxW, this->borrow_list[i].length());
+	}
+	std::cout << "题名" << std::setw(maxW);
+	std::cout << "ISBN" << std::setw(15);
 	std::cout << "作者" << std::setw(W);
-	std::cout << "出版社" << std::setw(W);
+	std::cout << "出版社" << std::setw(15);
 	std::cout << std::endl;
 	for (int i = 0; i < this->borrow_list.size(); i++)
-		books[this->borrow_list[i]].print();
+		books[this->borrow_list[i]].print(maxW);
 	system("pause");
 	return;
 }
@@ -68,6 +82,11 @@ void usr::save(std::ostream& ss) {
 		ss << borrow_list[i] << '\t';
 	}
 	//std::cout << "成功写入" << this->_name << std::endl;
+}
+void usr::back(std::string ss) {
+	int p = find_borrow(ss);
+	std::vector<std::string>::iterator i = borrow_list.begin() + p;
+	borrow_list.erase(i);
 }
 usr FindUsr(std::string name) {
 	return user[name];

@@ -11,12 +11,12 @@ book::book(std::string name, std::string ISBN, std::string writer, std::string h
 	this->price = price;
 	this->borrowed_times = borrowed_times;
 }
-void book::print() {
-	std::cout << this->name << std::setw(W);
-	std::cout << this->ISBN << std::setw(W);
-	std::cout << this->writer << std::setw(W);
-	std::cout << this->house << std::setw(W);
-	std::cout << this->borrowed_times << std::setw(W);
+void book::print(int maxW) {
+	std::cout << std::setw(maxW) << std::left << this->name;
+	std::cout << std::setw(15) << std::left << this->ISBN;
+	std::cout << std::setw(W) << std::left << this->writer;
+	std::cout << std::setw(15) << std::left << this->house;
+	std::cout << this->borrowed_times;
 	std::cout << std::endl;
 }
 void book::save(std::ostream& ss) {
@@ -33,5 +33,52 @@ bool book::borrow(std::string borrower) {
 	if (!this->available)return false;
 	this->available = false;
 	this->borrower = borrower;
+	this->borrowed_times++;
 	return true;
+}
+bool book::founded(std::string ss) {
+	if (ISBN == ss)return true;
+	if (writer == ss)return true;
+	if (house == ss)return true;
+	return false;
+}
+std::string book::show_name() {
+	return this->name;
+}
+void book::back() {
+	this->available = 1;
+	this->borrower = "NULL";
+}
+bool cmp_book(book x, book y) {
+	return x.show_name() < y.show_name();
+}
+void Search(std::string ss) {
+	system("cls");
+	std::vector<book> li;
+	int maxW = 0;
+	if (books.find(ss) != books.end()) {
+		li.push_back(books[ss]);
+		maxW = max(ss.length(), maxW);
+	}
+	for (std::map<std::string, book>::iterator i = books.begin(); i != books.end(); i++)
+		if (i->second.founded(ss)) {
+			li.push_back(i->second);
+			maxW = max(i->second.show_name().length(), maxW);
+		}
+	if (li.empty()) {
+		std::cout << "没有找到相关书籍" << std::endl;
+		system("pause");
+		return;
+	}
+	std::sort(li.begin(),li.end(),cmp_book);
+	std::cout << std::setw(maxW) << std::left << "题名";
+	std::cout << std::setw(15) << std::left << "ISBN";
+	std::cout << std::setw(W) << std::left << "作者";
+	std::cout << std::setw(15) << std::left << "出版社";
+	std::cout<< "借阅次数";
+	std::cout << std::endl;
+	for (int i = 0; i < li.size(); i++)
+		li[i].print(maxW);
+	system("pause");
+
 }
