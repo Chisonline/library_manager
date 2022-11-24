@@ -20,8 +20,10 @@ public:
 	int get_lev() { return this->_lev; }
 	int find_borrow(std::string);
 	void back(std::string);
+	bool del();
 	usr(usr* u);
 	usr();
+	~usr();
 	std::string _name;
 private:
 	int _lev;
@@ -32,4 +34,4 @@ private:
 extern std::map<std::string, usr>user;
 usr FindUsr(std::string name);
 bool AddUsr(std::string name, std::string _passwd, int lev);
-void EraseUsr(std::string name);
+void PrintUsr();

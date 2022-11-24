@@ -91,43 +91,65 @@ void usr::back(std::string ss) {
 usr FindUsr(std::string name) {
 	return user[name];
 }
+usr::~usr(){}
 bool AddUsr(std::string name, std::string _passwd, int lev) {
 	if (user.find(name) != user.end())return false;
 	usr* tmp = new usr(name, _passwd, lev);
 	user[name] = *tmp;
 	return true;
 }
-void EraseUsr(std::string name) {
-	delete(&user[name]);
+bool usr::del() {
+	while(!borrow_list.empty()) {
+		book* ptr = &books[borrow_list[0]];
+		ptr->back();
+		back(borrow_list[0]);
+	}
+	user.erase(this->_name);
+	delete(this);
 }
 void usr::op() {
-	std::cout << "请输入操作对应序号" << std::endl;
-	std::cout << "1.我的借书列表" << std::endl;
-	std::cout << "2.修改密码" << std::endl;
-	//std::cout << "" << std::endl;
-	std::cout << this->_lev << ">";
-	int opt;
-	std::cin >> opt;
-	switch (opt) {
-	case 1:
-		show_borrow_list();
-		break;
-	case 2:
-		std::string pwd1, pwd2;
-		std::cout << "请输入新密码" << std::endl;
-		pwd1 = get_pwd();
-		std::cout << "请重复密码以确认" << std::endl;
-		pwd2 = get_pwd();
-		if (pwd1 != pwd2) {
-			std::cout << "两次密码不一致！" << std::endl;
-			system("pause");
+	while (true) {
+		system("cls");
+		std::cout << "请输入操作对应序号" << std::endl;
+		std::cout << "1.我的借书列表" << std::endl;
+		std::cout << "2.修改密码" << std::endl;
+		std::cout << "3.返回上一级" << std::endl;
+		std::cout << this->_lev << ">";
+		int opt;
+		std::cin >> opt;
+		switch (opt) {
+		case 1:
+			show_borrow_list();
 			break;
-		}
-		else {
-			this->change_passwd(pwd1);
-			std::cout << "修改成功！" << std::endl;
-			system("pause");
-			break;
+		case 2:
+			std::string pwd1, pwd2;
+			std::cout << "请输入新密码" << std::endl;
+			pwd1 = get_pwd();
+			std::cout << "请重复密码以确认" << std::endl;
+			pwd2 = get_pwd();
+			if (pwd1 != pwd2) {
+				std::cout << "两次密码不一致！" << std::endl;
+				system("pause");
+				break;
+			}
+			else {
+				this->change_passwd(pwd1);
+				std::cout << "修改成功！" << std::endl;
+				system("pause");
+				break;
+			}
 		}
 	}
+}
+void PrintUsr() {
+	if (user.size() <= 2) {
+		std::cout << "没有其他用户" << std::endl;
+		return;
+	}
+	std::cout << "用户名：" << std::endl;
+	for(std::map<std::string,usr>::iterator i = user.begin();i!=user.end();i++)
+		if (i->second.get_lev() == 2) {
+			std::cout << i->second._name << std::endl;
+		}
+	return;
 }

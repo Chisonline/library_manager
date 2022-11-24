@@ -172,6 +172,7 @@ void op_book() {
 		std::cout << "2.借阅图书" << std::endl;
 		std::cout << "3.归还图书" << std::endl;
 		std::cout << "4.返回上一级" << std::endl;
+		std::cout << now_usr->_name << ">";
 		int opt;
 		std::cin >> opt;
 		switch (opt) {
@@ -207,5 +208,125 @@ void op_book() {
 	}
 }
 void admin_opt() {
-
+	while (true) {
+		system("cls");
+		std::cout << "请输入操作对应的序号" << std::endl;
+		std::cout << "1.用户管理" << std::endl;
+		std::cout << "2.图书管理" << std::endl;
+		std::cout << "3.返回上一级" << std::endl;
+		std::cout << now_usr->_name << ">";
+		int opt;
+		std::cin >> opt;
+		switch (opt) {
+		case 1:
+			admin_usr_opt();
+			break;
+		case 2:
+			admin_book_opt();
+			break;
+		case 3:
+			return;
+		default:
+			std::cout << "无效的操作！" << std::endl;
+			system("pause");
+			break;
+		}
+	}
+}
+void admin_usr_opt() {
+	while (true) {
+		system("cls");
+		std::cout << "请输入操作对应的序号" << std::endl;
+		std::cout << "1.列举用户列表" << std::endl;
+		std::cout << "2.修改用户" << std::endl;
+		std::cout << "3.返回上一级" << std::endl;
+		std::cout << now_usr->_name << ">";
+		int opt;
+		std::cin >> opt;
+		switch (opt) {
+		case 1:
+			PrintUsr();
+			break;
+		case 2:
+			change_usr();
+			break;
+		case 3:
+			return;
+		default:
+			std::cout << "无效的操作！" << std::endl;
+			break;
+		}
+	}
+}
+void change_usr() {
+	usr* targ = nullptr;
+	while (true) {
+		std::cout << "请输入操作对应的序号" << std::endl;
+		std::cout << "1.选择用户" << std::endl;
+		std::cout << "2.返回上一级" << std::endl;
+		std::cout << now_usr->_name << ">";
+		int opt;
+		bool flag = 0;
+		std::string s1;
+		std::cin >> opt;
+		switch (opt) {
+		case 1:
+			std::cout << "请输入目标用户名:" << std::endl;
+			std::cin >> s1;
+			if (user.find(s1) == user.end()) {
+				std::cout << "没有找到该用户" << std::endl;
+				break;
+			}
+			targ = &user[s1];
+			break;
+		case 2:
+			return;
+		default:
+			std::cout << "无效的操作！" << std::endl;
+			break;
+		}
+		if (flag)break;
+	}
+	while (true) {
+		std::cout << "请输入操作对应的序号" << std::endl;
+		std::cout << "1.重置密码" << std::endl;
+		std::cout << "2.更改用户名" << std::endl;
+		std::cout << "3.删除用户" << std::endl;
+		std::cout << "4.查询该用户借阅列表" << std::endl;
+		std::cout << "5.返回上一级" << std::endl;
+		std::cout << now_usr->_name << ">";
+		int opt;
+		std::string ss;
+		std::cin >> opt;
+		switch (opt) {
+		case 1:
+			targ->change_passwd("123456");
+			std::cout << targ->_name << " 的密码已经重置为：123456" << std::endl;
+			break;
+		case 2:
+			std::cout << "请输入新用户名" << std::endl;
+			std::cin >> ss;
+			targ->change_name(ss);
+			std::cout << "该用户的用户名已经修改为：" << ss << std::endl;
+			break;
+		case 3:
+			std::cout << "警告！该用户所有信息将被强制删除！" << std::endl;
+			std::cout << "该用户所有未归还书籍将被强制重设为已归还！" << std::endl;
+			while (true) {
+				std::cout << "您确定要继续吗?[y/n]";
+				std::cin >> ss;
+				if (ss == "y")targ->del();
+				else if (ss == "n")break;
+			}
+			break;
+		case 4:
+			targ->show_borrow_list();
+			break;
+		case 5:
+			return;
+		default:
+			std::cout << "无效的操作！" << std::endl;
+			break;
+		}
+	}
 }
