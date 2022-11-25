@@ -1,6 +1,5 @@
 #pragma once
 #include "book.h"
-#include "tools.h"
 #include <iostream>
 #include <map>
 #include <vector>
@@ -20,10 +19,9 @@ public:
 	int get_lev() { return this->_lev; }
 	int find_borrow(std::string);
 	void back(std::string);
-	bool del();
+	void del();
 	usr(usr* u);
 	usr();
-	~usr();
 	std::string _name;
 private:
 	int _lev;

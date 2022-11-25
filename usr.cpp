@@ -91,14 +91,13 @@ void usr::back(std::string ss) {
 usr FindUsr(std::string name) {
 	return user[name];
 }
-usr::~usr(){}
 bool AddUsr(std::string name, std::string _passwd, int lev) {
 	if (user.find(name) != user.end())return false;
 	usr* tmp = new usr(name, _passwd, lev);
 	user[name] = *tmp;
 	return true;
 }
-bool usr::del() {
+void usr::del() {
 	while(!borrow_list.empty()) {
 		book* ptr = &books[borrow_list[0]];
 		ptr->back();

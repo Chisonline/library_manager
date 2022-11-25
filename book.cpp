@@ -11,6 +11,16 @@ book::book(std::string name, std::string ISBN, std::string writer, std::string h
 	this->price = price;
 	this->borrowed_times = borrowed_times;
 }
+book::book(book* ptr) {
+	this->name = ptr->name;
+	this->ISBN = ptr->ISBN;
+	this->writer = ptr->writer;
+	this->house = ptr->house;
+	this->available = ptr->available;
+	this->borrower = ptr->borrower;
+	this->price = ptr->price;
+	this->borrowed_times = ptr->borrowed_times;
+}
 void book::print(int maxW) {
 	std::cout << std::setw(maxW) << std::left << this->name;
 	std::cout << std::setw(15) << std::left << this->ISBN;
@@ -48,6 +58,34 @@ std::string book::show_name() {
 void book::back() {
 	this->available = 1;
 	this->borrower = "NULL";
+}
+std::string book::WhoBorrow() {
+	return this->borrower;
+}
+bool book::change_name(std::string ss) {
+	if (books.find(ss) == books.end())return false;
+	book* tmp = new book(this);
+	tmp->name = ss;
+	books[ss] = *tmp;
+	books.erase(this->name);
+	delete(this);
+	return true;
+}
+void book::change_ISBN(std::string ss) {
+	this->ISBN = ss;
+}
+void book::change_writer(std::string ss) {
+	this->writer = ss;
+}
+void book::change_price(double num) {
+	this->price = num;
+}
+void book::change_house(std::string ss) {
+	this->house = ss;
+}
+void book::del() {
+	books.erase(this->show_name());
+	delete(this);
 }
 bool cmp_book(book x, book y) {
 	return x.show_name() < y.show_name();

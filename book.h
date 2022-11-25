@@ -1,4 +1,5 @@
 #pragma once
+#include "tools.h"
 #include <iostream>
 #include <iomanip>
 #include <map>
@@ -14,9 +15,17 @@ public:
 	void save(std::ostream &ss);
 	bool borrow(std::string borrower);
 	bool founded(std::string ss);
+	bool change_name(std::string ss);
 	std::string show_name();
 	void back();
+	std::string WhoBorrow();
 	book();
+	book(book* ptr);
+	void change_ISBN(std::string ss);
+	void change_writer(std::string ss);
+	void change_price(double num);
+	void change_house(std::string ss);
+	void del();
 private:
 	int borrowed_times;
 	std::string name;
