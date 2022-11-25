@@ -33,3 +33,4 @@ extern std::map<std::string, usr>user;
 usr FindUsr(std::string name);
 bool AddUsr(std::string name, std::string _passwd, int lev);
 void PrintUsr();
+void del_usr(usr* ptr);

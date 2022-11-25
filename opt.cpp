@@ -101,8 +101,9 @@ void operat() {
 	std::cout << "请输入操作对应序号" << std::endl;
 	std::cout << "1.图书操作" << std::endl;
 	std::cout << "2.用户操作" << std::endl;
-	std::cout << "3.退出登录" << std::endl;
-	std::cout << "4.关闭系统" << std::endl;
+	std::cout << "3.排行榜" << std::endl;
+	std::cout << "4.退出登录" << std::endl;
+	std::cout << "5.关闭系统" << std::endl;
 	std::cout << "0.管理员模式" << std::endl;
 	std::cout << now_usr->_name << ">";
 	int op;
@@ -114,15 +115,19 @@ void operat() {
 	case 2:
 		if (now_usr->_name == "visitor") {
 			std::cout << "访客不具有该权限" << std::endl;
+			system("pause");
 			break;
 		}
 		now_usr->op();
 		break;
 	case 3:
+		ranking();
+		break;
+	case 4:
 		now_usr = nullptr;
 		welcome();
 		break;
-	case 4:
+	case 5:
 		shutdown();
 	case 0:
 		if (now_usr->get_lev() != 1) {
@@ -131,6 +136,7 @@ void operat() {
 			break;
 		}
 		admin_opt();
+		break;
 	default:
 		std::cout << "无效的操作" << std::endl;
 		system("pause");
@@ -139,10 +145,12 @@ void operat() {
 void Back(std::string ss) {
 	if (books.find(ss) == books.end()) {
 		std::cout << "未找到目标书籍" << std::endl;
+		system("pause");
 		return;
 	}
 	if (now_usr->find_borrow(ss) == -1) {
 		std::cout << "未借阅目标书籍" << std::endl;
+		system("pause");
 		return;
 	}
 	now_usr->back(ss);
@@ -254,6 +262,7 @@ void admin_usr_opt() {
 		switch (opt) {
 		case 1:
 			PrintUsr();
+			system("pause");
 			break;
 		case 2:
 			change_usr();
@@ -270,12 +279,13 @@ void admin_usr_opt() {
 void change_usr() {
 	usr* targ = nullptr;
 	while (true) {
+		system("cls");
 		std::cout << "请输入操作对应的序号" << std::endl;
 		std::cout << "1.选择用户" << std::endl;
 		std::cout << "2.返回上一级" << std::endl;
 		std::cout << now_usr->_name << ">";
 		int opt;
-		bool flag = 0;
+		bool flag = false;
 		std::string s1;
 		std::cin >> opt;
 		switch (opt) {
@@ -284,20 +294,23 @@ void change_usr() {
 			std::cin >> s1;
 			if (user.find(s1) == user.end()) {
 				std::cout << "没有找到该用户" << std::endl;
+				system("pause");
 				break;
 			}
 			targ = &user[s1];
+			flag = true;
 			break;
 		case 2:
 			return;
 		default:
 			std::cout << "无效的操作！" << std::endl;
 			system("pause");
-			break;
+			return;
 		}
 		if (flag)break;
 	}
 	while (true) {
+		system("cls");
 		std::cout << "目前正在修改的用户：" << targ->_name << std::endl;
 		std::cout << "请输入操作对应的序号" << std::endl;
 		std::cout << "1.重置密码" << std::endl;
@@ -313,12 +326,14 @@ void change_usr() {
 		case 1:
 			targ->change_passwd("123456");
 			std::cout << targ->_name << " 的密码已经重置为：123456" << std::endl;
+			system("pause");
 			break;
 		case 2:
 			std::cout << "请输入新用户名" << std::endl;
 			std::cin >> ss;
 			targ->change_name(ss);
 			std::cout << "该用户的用户名已经修改为：" << ss << std::endl;
+			system("pause");
 			break;
 		case 3:
 			std::cout << "警告！该用户所有信息将被强制删除！" << std::endl;
@@ -327,7 +342,7 @@ void change_usr() {
 				std::cout << "您确定要继续吗?[y/n]";
 				std::cin >> ss;
 				if (ss == "y") { 
-					targ->del();
+					del_usr(targ);
 					targ = nullptr;
 					std::cout << "删除成功" << std::endl;
 					return;
@@ -350,6 +365,7 @@ void change_usr() {
 void admin_book_opt() {
 	book* targ = nullptr;
 	while (true) {
+		system("cls");
 		std::cout << "请输入操作对应的序号" << std::endl;
 		std::cout << "1.查询书籍借阅信息" << std::endl;
 		std::cout << "2.修改书籍" << std::endl;
@@ -364,9 +380,15 @@ void admin_book_opt() {
 		case 1:
 			std::cout << "请输入目标书籍名称" << std::endl;
 			std::cin >> ss;
+			if (books.find(ss) == books.end()) {
+				std::cout << "未找到目标书籍！" << std::endl;
+				system("pause");
+				break;
+			}
 			targ = &books[ss];
 			std::cout << "借阅者： " << targ->WhoBorrow() << std::endl;
 			targ = nullptr;
+			system("pause");
 			break;
 		case 2:
 			change_book(nullptr);
@@ -377,7 +399,7 @@ void admin_book_opt() {
 			tmp = new book(ss, "NULL", "NULL", "NULL", 1, "NULL", 0.00, 0);
 			books[ss] = *tmp;
 			while (true) {
-				std::cout << "是否立即编辑该图书其他信息？[y/n]" << std::endl;
+				std::cout << "是否立即编辑该图书其他信息？[y/n]";
 				std::cin >> s1;
 				if (s1 == "y") {
 					change_book(tmp);
@@ -397,6 +419,7 @@ void admin_book_opt() {
 void change_book(book* targ) {
 	std::string ss;
 	while (targ == nullptr) {
+		system("cls");
 		std::cout << "请输入目标书籍名称" << std::endl;
 		std::cin >> ss;
 		if (books.find(ss) == books.end()) {
@@ -407,6 +430,7 @@ void change_book(book* targ) {
 		targ = &books[ss];
 	}
 	while (true) {
+		system("cls");
 		std::cout << "目前正在修改的书籍：" <<targ->show_name() << std::endl;
 		std::cout << "请输入操作对应的序号" << std::endl;
 		std::cout << "1.修改书籍名称" << std::endl;
@@ -454,12 +478,14 @@ void change_book(book* targ) {
 			targ->change_house(ss);
 			std::cout << "出版社已经修改为：" << ss << std::endl;
 			system("pause");
+			break;
 		case 5:
 			std::cout << "请输入新的价格：" << std::endl;
 			std::cin >> num;
 			targ->change_price(num);
 			std::cout << "价格已经修改为：" << num << std::endl;
 			system("pause");
+			break;
 		case 6:
 			std::cout << "警告！本书籍所有信息将被删除！" << std::endl;
 			std::cout << "该操作不可撤回！" << std::endl;
@@ -467,7 +493,7 @@ void change_book(book* targ) {
 				std::cout << "您确定要继续吗？[y/n]";
 				std::cin >> ss;
 				if (ss == "y") {
-					targ->del();
+					del_book(targ);
 					targ = nullptr;
 					std::cout << "删除成功" << std::endl;
 					system("pause");
@@ -475,12 +501,43 @@ void change_book(book* targ) {
 				}
 				else break;
 			}
+			break;
 		case 7:
 			return;
-		default:
+		default: 
 			std::cout << "无效的操作！" << std::endl;
 			system("pause");
 			break;
 		}
+	}
+}
+void ranking() {
+	while (true) {
+		std::cout << "请输入操作对应的序号" << std::endl;
+		std::cout << "1.图书排名" << std::endl;
+		std::cout << "2.用户排名" << std::endl;
+		std::cout << "3.返回上一级" << std::endl;
+		std::cout << now_usr->_name<<">" << std::endl;
+		int opt;
+		std::cin >> opt;
+		switch (opt) {
+		case 1:
+			book_ranking();
+			break;
+		case 2:
+			usr_ranking();
+			break;
+		case 3:
+			return;
+		default:
+			std::cout << "无效的操作" << std::endl;
+			system("pause");
+			return;
+		}
+	}
+}
+void book_ranking() {
+	for (std::map<std::string, book>::iterator i = books.begin(); i != books.end(); i++) {
+
 	}
 }

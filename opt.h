@@ -17,3 +17,6 @@ void admin_usr_opt();
 void admin_book_opt();
 void change_usr();
 void change_book(book* tmp);
+void ranking();
+void book_ranking();
+void usr_ranking();
