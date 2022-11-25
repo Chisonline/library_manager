@@ -63,7 +63,7 @@ void usr::show_borrow_list() {
 	for (int i = 0; i < this->borrow_list.size(); i++) {
 		maxW = max(maxW, this->borrow_list[i].length());
 	}
-	std::cout << "题名" << std::setw(maxW);
+	std::cout << "题名" << std::setw(maxW+5);
 	std::cout << "ISBN" << std::setw(15);
 	std::cout << "作者" << std::setw(W);
 	std::cout << "出版社" << std::setw(15);
@@ -98,13 +98,16 @@ bool AddUsr(std::string name, std::string _passwd, int lev) {
 	return true;
 }
 void usr::del() {
-	while(!borrow_list.empty()) {
+	while (!borrow_list.empty()) {
 		book* ptr = &books[borrow_list[0]];
 		ptr->back();
 		back(borrow_list[0]);
 	}
-	user.erase(this->_name);
-	delete(this);
+}
+void del_usr(usr *ptr){
+	ptr->del();
+	user.erase(ptr->_name);
+	delete(ptr);
 }
 void usr::op() {
 	while (true) {
@@ -115,13 +118,13 @@ void usr::op() {
 		std::cout << "3.返回上一级" << std::endl;
 		std::cout << this->_lev << ">";
 		int opt;
+		std::string pwd1, pwd2;
 		std::cin >> opt;
 		switch (opt) {
 		case 1:
 			show_borrow_list();
 			break;
 		case 2:
-			std::string pwd1, pwd2;
 			std::cout << "请输入新密码" << std::endl;
 			pwd1 = get_pwd();
 			std::cout << "请重复密码以确认" << std::endl;
@@ -137,7 +140,14 @@ void usr::op() {
 				system("pause");
 				break;
 			}
+		case 3:
+			return;
+		default:
+			std::cout << "无效的操作！" << std::endl;
+			system("pause");
+			break;
 		}
+
 	}
 }
 void PrintUsr() {

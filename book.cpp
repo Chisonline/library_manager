@@ -22,7 +22,7 @@ book::book(book* ptr) {
 	this->borrowed_times = ptr->borrowed_times;
 }
 void book::print(int maxW) {
-	std::cout << std::setw(maxW) << std::left << this->name;
+	std::cout << std::setw(maxW+5) << std::left << this->name;
 	std::cout << std::setw(15) << std::left << this->ISBN;
 	std::cout << std::setw(W) << std::left << this->writer;
 	std::cout << std::setw(15) << std::left << this->house;
@@ -83,9 +83,9 @@ void book::change_price(double num) {
 void book::change_house(std::string ss) {
 	this->house = ss;
 }
-void book::del() {
-	books.erase(this->show_name());
-	delete(this);
+void del_book(book* ptr) {
+	books.erase(ptr->show_name());
+	delete(ptr);
 }
 bool cmp_book(book x, book y) {
 	return x.show_name() < y.show_name();
@@ -109,7 +109,7 @@ void Search(std::string ss) {
 		return;
 	}
 	std::sort(li.begin(),li.end(),cmp_book);
-	std::cout << std::setw(maxW) << std::left << "题名";
+	std::cout << std::setw(maxW+5) << std::left << "题名";
 	std::cout << std::setw(15) << std::left << "ISBN";
 	std::cout << std::setw(W) << std::left << "作者";
 	std::cout << std::setw(15) << std::left << "出版社";

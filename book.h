@@ -25,7 +25,6 @@ public:
 	void change_writer(std::string ss);
 	void change_price(double num);
 	void change_house(std::string ss);
-	void del();
 private:
 	int borrowed_times;
 	std::string name;
@@ -39,3 +38,4 @@ private:
 extern std::map<std::string, book>books;
 void Search(std::string ss);
 bool cmp_book(book x, book y);
+void del_book(book* ptr);
