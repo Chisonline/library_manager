@@ -541,3 +541,4 @@ void book_ranking() {
 
 	}
 }
+void usr_ranking(){}
