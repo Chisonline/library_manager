@@ -83,9 +83,9 @@ void book::change_price(double num) {
 void book::change_house(std::string ss) {
 	this->house = ss;
 }
-void del_book(book* ptr) {
-	books.erase(ptr->show_name());
-	//delete(ptr);
+void book::del() {
+	books.erase(this->show_name());
+	//delete(this);
 }
 bool cmp_book(book x, book y) {
 	return x.show_name() < y.show_name();

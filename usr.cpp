@@ -104,7 +104,7 @@ void usr::del() {
 		back(borrow_list[0]);
 	}
 }
-void del_usr(usr *ptr){
+void del_usr(usr* ptr) {
 	ptr->del();
 	user.erase(ptr->_name);
 	//free(ptr);
